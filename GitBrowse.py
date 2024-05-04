@@ -9,8 +9,14 @@ import threading
 import os
 
 RESET = S.RESET_ALL
-PREFIX_OUT = RESET + F.LIGHTGREEN_EX + ">> "
-PREFIX_IN = RESET + F.GREEN + "<< "
+PREFIX_OUT = RESET + F.LIGHTMAGENTA_EX + ">> "
+PREFIX_IN = RESET + F.MAGENTA + "<< "
+ERROR = F.RED
+SUCCESS = F.GREEN
+INFO = F.CYAN
+WHITE = F.WHITE
+HEADER= F.LIGHTMAGENTA_EX
+FOOTER = F.MAGENTA
 
 lock = threading.Lock()  # Mutex para sincronização
 
@@ -21,6 +27,10 @@ def get_clear_command():
         return "cls"
     return ""
 
+def clear_screen():
+    """ Clear the console screen. """
+    os.system(get_clear_command())
+
 def download_file(file_url, file_name):
     try:
         directory = os.path.dirname(file_name) or "./downloads"
@@ -29,9 +39,9 @@ def download_file(file_url, file_name):
         if response.status_code == 200:
             with open(file_name, 'wb') as f:
                 f.write(response.content)
-            print(f"{PREFIX_OUT}Arquivo '{file_name}' baixado com sucesso.")
+            print(f"{PREFIX_OUT}Arquivo {WHITE}'{file_name}' {HEADER}baixado com sucesso.{RESET}")
         else:
-            print(f"{PREFIX_OUT}Falha ao baixar o arquivo. Status code: {response.status_code}")
+            print(f"{F.RED}Falha ao baixar o arquivo. Status code: {ERROR}{response.status_code}{RESET}")
     except requests.exceptions.RequestException as e:
         print(f"{PREFIX_OUT}Erro ao baixar o arquivo: {e}")
 
@@ -42,7 +52,7 @@ def get_default_branch(username, repo_name):
         repo_data = response.json()
         return repo_data.get('default_branch', 'main')
     else:
-        print(f"{PREFIX_OUT}Erro ao buscar informações do repositório: Status code {response.status_code}")
+        print(f"{PREFIX_OUT}Erro ao buscar informações do repositório: Status code {ERROR}{response.status_code}{RESET}")
         return 'main'
 
 def fetch_repository_files(username, repo, files_dict):
@@ -111,47 +121,56 @@ def list_repository_files(repo_url, default_branch='main'):
 
 def clone_repository(repo_url, repo_name):
     subprocess.run(["git", "clone", f"https://github.com{repo_url}.git", f"./{repo_name}"])
-    print(f"\n{PREFIX_OUT}Repositório '{repo_name}' clonado com sucesso.")
+    clear_screen()
+    print(f"\n{PREFIX_OUT}Repositório {WHITE}'{repo_name}'{HEADER} clonado com sucesso.{RESET}")
 
 def main():
     clear = lambda: os.system(get_clear_command())
     clear()
 
-    print(f"{F.LIGHTYELLOW_EX}==================== BEM-VINDO AO GitBrowser ====================")
+    print(f"{HEADER}==================== BEM-VINDO AO GitBrowser ===================={RESET}")
     print(f"{PREFIX_OUT}Para começar, digite o nome do usuário do GitHub:")
-    username = input(f"{PREFIX_IN}")
+    username = input(f"{PREFIX_IN}{WHITE}")
 
-    print(f"{PREFIX_OUT}Procurando o usuário {F.GREEN}{username}{RESET}...")
+    print(f"{PREFIX_OUT}Procurando o usuário {WHITE}{username}{HEADER}...{RESET}")
 
     repositories = []
     files_dict = {}
     if not fetch_repositories(username, repositories, files_dict):
         print(f"{PREFIX_OUT}{F.RED}Usuário não encontrado.{RESET}")
         return
-
-    print(f"{PREFIX_OUT}Usuário encontrado! Navegue pelas opções abaixo:")
+    
+    clear_screen()
+    print(f"{PREFIX_OUT}Usuário {WHITE}{username}{HEADER} encontrado! Navegue pelas opções abaixo:{RESET}")
     print(RESET)
     while True:
-        print(f"{F.LIGHTYELLOW_EX}------------------------{RESET}")
-        print("Opções:\n1. Listar repositórios\n2. Sair")
-        print(f"{F.LIGHTYELLOW_EX}------------------------{RESET}")
-        option = input("Escolha uma opção: ")
+        print(f"\n{WHITE}------------------------{RESET}\n")
+        print(f"{WHITE}Opções:\n\n{WHITE}1.{HEADER} Listar repositórios\n\n{WHITE}2.{HEADER} Sair{RESET}")
+        print(f"\n{WHITE}------------------------{RESET}\n")
+        option = input(f"{PREFIX_OUT} {WHITE}Escolha uma opção:{WHITE} {RESET}")
 
         if option == '1':
+            clear_screen()
+            print(f"\n{WHITE}------------------------{RESET}\n")
             for i, repo in enumerate(repositories, 1):
-                print(f"\n{i}. {repo['name']}")
-            repo_option = input("\nSelecione um número para ver detalhes ou 'b' para voltar: ")
+                print(f"\n{i}. {HEADER}{repo['name']}{S.RESET_ALL}\n")
+            print(f"\n{WHITE}------------------------{RESET}\n")
+            repo_option = input(f"{PREFIX_OUT} \nSelecione um número para ver detalhes ou {ERROR}'b'{HEADER} para voltar: {WHITE}{RESET}")
             if repo_option.isdigit():
+                clear_screen()
                 repo_index = int(repo_option) - 1
                 repo_name = repositories[repo_index]['name']
-                print(f"\nOpções para {repo_name}:\n1. Ver arquivos\n2. Clonar repositório")
-                action = input("Escolha uma ação: ")
+                print(f"\n{WHITE}------------------------{RESET}\n")
+                print(f"\nOpções para {repo_name}:\n\n{WHITE}1.{HEADER} Ver arquivos\n\n{WHITE}2.{HEADER} Clonar repositório{RESET}")
+                print(f"\n{WHITE}------------------------{RESET}\n")
+                action = input(f"{PREFIX_OUT} {WHITE}Escolha uma ação: {WHITE}{RESET} ")
                 if action == '1':
+                    clear_screen()
                     if repo_name in files_dict:
                         files = files_dict[repo_name]
                         for i, (display_name, file_url, file_type) in enumerate(files):
                             print(f"{i + 1}. {display_name}")
-                        file_option = input("\nEscolha um arquivo para baixar ou 'b' para voltar: ")
+                        file_option = input(f"{PREFIX_OUT}\nEscolha um arquivo para baixar ou {ERROR}'b' {HEADER}para voltar:{WHITE} {RESET}")
                         if file_option.isdigit():
                             file_index = int(file_option) - 1
                             _, file_url, file_type = files[file_index]
@@ -159,14 +178,16 @@ def main():
                                 file_name = f"./downloads/{files[file_index][0].split(' (')[0]}"
                                 download_file(file_url, file_name)
                     else:
-                        print("\nArquivos ainda sendo processados, tente novamente em breve.")
+                        print(f"\n{ERROR}Arquivos ainda sendo processados, tente novamente em breve.{RESET}\n")
                 elif action == '2':
+                    clear_screen()
                     repo_url = repositories[repo_index]['url']
                     clone_repository(repo_url, repo_name)
             elif repo_option.lower() == 'b':
                 continue
         elif option == '2':
-            print("\nEncerrando o programa.")
+            clear_screen()
+            print(f"\n{ERROR}Programa encerrado.{RESET}\n")
             break
 
 if __name__ == "__main__":
