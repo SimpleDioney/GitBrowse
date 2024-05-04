@@ -42,5 +42,9 @@ Inclui uma interface de linha de comando para navegação e interação com repo
 ## Contribuições
 Contribuições são bem-vindas! Para contribuir, faça um fork do repositório, crie um branch com sua feature ou correção de bugs e envie um pull request.
 
+## Patreon
+
+https://patreon.com/SimpleDioney?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink
+
 ## Licença
 Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
