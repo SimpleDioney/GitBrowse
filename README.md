@@ -1,6 +1,6 @@
 <div align="center">
     <h1>GitBrowse</h1>
-    <p><strong>GitBrowse</strong> é uma ferramenta de linha de comando robusta projetada para navegar e interagir com repositórios do GitHub diretamente do seu terminal. Com GitBrowse, você pode facilmente listar repositórios, visualizar e baixar arquivos, e até mesmo clonar repositórios inteiros com simplicidade e eficiência.</p>
+    <p text-align= "justify"><strong>GitBrowse</strong> é uma ferramenta de linha de comando robusta projetada para navegar e interagir com repositórios do GitHub diretamente do seu terminal. Com GitBrowse, você pode facilmente listar repositórios, visualizar e baixar arquivos, e até mesmo clonar repositórios inteiros com simplicidade e eficiência.</p>
 </div>
 
 <h2>Requisitos</h2>
