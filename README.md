@@ -1,13 +1,13 @@
 <div align="center">
     <h1>GitBrowse</h1>
-    <p text-align= "justify"><strong>GitBrowse</strong> é uma ferramenta de linha de comando robusta projetada para navegar e interagir com repositórios do GitHub diretamente do seu terminal. Com GitBrowse, você pode facilmente listar repositórios, visualizar e baixar arquivos, e até mesmo clonar repositórios inteiros com simplicidade e eficiência.</p>
+    <p text-align="justify"><strong>GitBrowse</strong> é uma ferramenta de linha de comando robusta projetada para navegar e interagir com repositórios do GitHub diretamente do seu terminal. Com GitBrowse, você pode facilmente listar repositórios, visualizar e baixar arquivos, e até mesmo clonar repositórios inteiros com simplicidade e eficiência.</p>
 </div>
 
 <h2>Requisitos</h2>
 <ul>
     <li><strong>Python</strong>: Versão 3.6 ou superior.</li>
     <li><strong>Bibliotecas Python</strong>:
-        <ul>
+        <ul text-align="justify">
             <li><code>requests</code>: Para requisições HTTP.</li>
             <li><code>bs4</code> (BeautifulSoup4): Para parsing de HTML.</li>
             <li><code>colorama</code>: Para estilização de texto no terminal.</li>
@@ -16,7 +16,7 @@
     </li>
 </ul>
 
-<h2>Funcionalidades</h2>
+<h2 text-align="justify">Funcionalidades</h2>
 <ul>
     <li><strong>Limpeza do Terminal</strong>: Ajusta o comando de limpeza de tela com base no sistema operacional.</li>
     <li><strong>Download de Arquivos</strong>: Facilita o download de arquivos do GitHub, gerenciando automaticamente a criação de diretórios.</li>
@@ -28,14 +28,14 @@
 </ul>
 
 <h2>Como Usar</h2>
-<ol>
+<ol text-align="justify">
     <li>Abra seu terminal.</li>
     <li>Execute o script principal com Python.</li>
     <li>Siga as instruções interativas para explorar repositórios ou realizar ações específicas, como listar arquivos ou clonar repositórios.</li>
 </ol>
 
 <h2>Desenvolvimento Futuro</h2>
-<ul>
+<ul text-align="justify">
     <li>Aprimoramento da interface do usuário para uma navegação mais intuitiva.</li>
     <li>Implementação de autenticação para acessar repositórios privados.</li>
     <li>Melhoria na eficiência do uso de threads para operações mais rápidas e menos bloqueantes.</li>
@@ -43,7 +43,7 @@
 
 <h2>Contribuições</h2>
 <p>Contribuições para melhorar GitBrowse são sempre bem-vindas! Para contribuir:</p>
-<ol>
+<ol text-align="justify">
     <li>Faça um fork do repositório.</li>
     <li>Crie um novo branch para sua feature ou correção.</li>
     <li>Desenvolva e teste suas mudanças.</li>
