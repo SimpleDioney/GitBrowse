@@ -1,50 +1,52 @@
 # GitBrowse
 
-## Visão Geral
-**GitBrowse** é uma ferramenta de linha de comando para navegar e interagir com repositórios do GitHub. A ferramenta permite aos usuários listar repositórios, visualizar e baixar arquivos, e clonar repositórios diretamente para a máquina local.
+**GitBrowse** é uma ferramenta de linha de comando robusta projetada para navegar e interagir com repositórios do GitHub diretamente do seu terminal. Com GitBrowse, você pode facilmente listar repositórios, visualizar e baixar arquivos, e até mesmo clonar repositórios inteiros com simplicidade e eficiência.
 
 ## Requisitos
-- **Python**: 3.6 ou superior
-- **Bibliotecas**: `requests`, `bs4` (BeautifulSoup4), `colorama`, `threading`
+- **Python**: Versão 3.6 ou superior.
+- **Bibliotecas Python**:
+  - `requests`: Para requisições HTTP.
+  - `bs4` (BeautifulSoup4): Para parsing de HTML.
+  - `colorama`: Para estilização de texto no terminal.
+  - `threading`: Para processamento paralelo.
 
 ## Funcionalidades
 
-### 1. Comandos de Limpeza do Terminal
-Ajusta o comando de limpeza do terminal com base no sistema operacional do usuário.
-
-### 2. Download de Arquivos
-Permite o download de arquivos do GitHub, criando diretórios necessários automaticamente.
-
-### 3. Obtenção do Ramo Padrão de Repositórios
-Recupera o ramo padrão de qualquer repositório GitHub usando a API do GitHub.
-
-### 4. Busca de Arquivos em Repositórios
-Recupera arquivos de um repositório específico no GitHub.
-
-### 5. Busca e Listagem de Repositórios
-Lista repositórios de um usuário GitHub, com suporte para navegação por páginas.
-
-### 6. Listagem Recursiva de Arquivos de Repositório
-Lista todos os arquivos e diretórios dentro de um repositório de forma recursiva.
-
-### 7. Interface de Usuário
-Inclui uma interface de linha de comando para navegação e interação com repositórios.
+- **Limpeza do Terminal**: Ajusta o comando de limpeza de tela com base no sistema operacional.
+- **Download de Arquivos**: Facilita o download de arquivos do GitHub, gerenciando automaticamente a criação de diretórios.
+- **Obtenção do Ramo Padrão de Repositórios**: Utiliza a API do GitHub para determinar o ramo padrão de repositórios.
+- **Busca de Arquivos em Repositórios**: Permite a recuperação de arquivos dentro de um repositório especificado.
+- **Listagem de Repositórios**: Exibe repositórios de um usuário do GitHub com opções de navegação paginada.
+- **Listagem Recursiva de Arquivos de Repositório**: Mostra todos os arquivos e diretórios de um repositório de maneira recursiva.
+- **Interface de Usuário na Linha de Comando**: Oferece uma interface interativa para facilitar a navegação e interação.
 
 ## Como Usar
-1. Execute o script no terminal.
-2. Siga as instruções na tela para listar repositórios ou interagir com arquivos específicos.
+
+1. Abra seu terminal.
+2. Execute o script principal com Python.
+3. Siga as instruções interativas para explorar repositórios ou realizar ações específicas, como listar arquivos ou clonar repositórios.
 
 ## Desenvolvimento Futuro
-- Melhoria contínua da interface do usuário para facilitar a navegação.
-- Adição de suporte a autenticação para acesso a repositórios privados.
-- Otimização no manuseio de threads para operações simultâneas e mais eficientes.
+
+- Aprimoramento da interface do usuário para uma navegação mais intuitiva.
+- Implementação de autenticação para acessar repositórios privados.
+- Melhoria na eficiência do uso de threads para operações mais rápidas e menos bloqueantes.
 
 ## Contribuições
-Contribuições são bem-vindas! Para contribuir, faça um fork do repositório, crie um branch com sua feature ou correção de bugs e envie um pull request.
 
-## Patreon
+Contribuições para melhorar GitBrowse são sempre bem-vindas! Para contribuir:
 
-https://patreon.com/SimpleDioney?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink
+1. Faça um fork do repositório.
+2. Crie um novo branch para sua feature ou correção.
+3. Desenvolva e teste suas mudanças.
+4. Envie um pull request.
+
+## Apoio
+
+Para apoiar o desenvolvimento contínuo e melhorias, considere tornar-se um patrocinador no Patreon:
+
+[![Apoie no Patreon](https://patreon.com/SimpleDioney?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink)](https://patreon.com/SimpleDioney)
 
 ## Licença
-Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+
+Distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
