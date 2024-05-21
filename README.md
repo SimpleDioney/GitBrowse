@@ -55,6 +55,7 @@
 - Implementação de autenticação para acessar repositórios privados.
 - Melhoria na eficiência do uso de threads para operações mais rápidas e menos bloqueantes.
 - Adição de suporte para outras plataformas de hospedagem de código, como GitLab e Bitbucket.
+- Adição de temas, criação e temas padrões.
 - Integração com ferramentas de CI/CD para facilitar o desenvolvimento contínuo.
 
 ## Contribuições
