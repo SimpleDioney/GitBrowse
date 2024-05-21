@@ -9,13 +9,13 @@
 - **Visualizando e baixando arquivos especificos e unicos**
 
 <div align="center">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/IiTA-VvYQ_E?si=DXZlJrUXh_uJ8T1B" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    [![Demonstracao de uso GitBrowse.](https://img.youtube.com/vi/)]([https://www.youtube.com/watch?v=VIDEO_ID](https://www.youtube.com/watch?v=IiTA-VvYQ_E))
 </div>
 
 - **Clonando um repositorio completo**
 
 <div align="center">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/IiTA-VvYQ_E?si=DXZlJrUXh_uJ8T1B" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    [![Demonstracao de uso GitBrowse.](https://img.youtube.com/vi/)]([https://www.youtube.com/watch?v=VIDEO_ID](https://www.youtube.com/watch?v=IiTA-VvYQ_E))
 </div>
 
 ## Requisitos
