@@ -14,7 +14,7 @@
 - **Clonando um repositorio completo**
 
 <div align="center">
-    [![Demonstracao de uso GitBrowse.](https://img.youtube.com/vi/)]([https://www.youtube.com/watch?v=VIDEO_ID](https://www.youtube.com/watch?v=IiTA-VvYQ_E))
+    [![Demonstracao de uso GitBrowse.](https://www.youtube.com/watch?v=2BZZOhzVzQg)
 </div>
 
 ## Requisitos
