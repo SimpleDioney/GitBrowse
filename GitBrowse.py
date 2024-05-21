@@ -13,73 +13,111 @@ from pygments import highlight
 from pygments.lexers import guess_lexer_for_filename
 from pygments.formatters import TerminalFormatter
 import time
+import json
 
-RESET = S.RESET_ALL
-PREFIX_OUT = RESET + F.LIGHTMAGENTA_EX + ">> "
-PREFIX_IN = RESET + F.MAGENTA + "<< "
-ERROR = F.RED
-SUCCESS = F.GREEN
-INFO = F.CYAN
-WHITE = F.WHITE
-HEADER = F.LIGHTMAGENTA_EX
-FOOTER = F.MAGENTA
+# Importa as mensagens do arquivo messages.py para deixar o codigo mais organizado e limpo.
+# [Pt] Import messages from messages.py to keep the code more organized and clean.
+from messages import RESET, PREFIX_OUT, PREFIX_IN, ERROR, SUCCESS, INFO, WHITE, HEADER, FOOTER
+from messages import message_languages, messages
 
-lock = threading.Lock()  # Mutex para sincronização
-downloaded_file_message = None
-internet_connected = True  # Estado inicial da conexão com a Internet
+lock = threading.Lock()  # Mutex para sincronização / Mutex for synchronization
+downloaded_file_message = None  # Mensagem de arquivo baixado / Downloaded file message
+internet_connected = True  # Estado inicial da conexão com a Internet / Initial state of Internet connection
+config_file = "config.json"  # Nome do arquivo de configuração / Configuration file name
+language = "en"  # Idioma padrão / Default language
+
+def load_config():
+    """Carrega a configuração do idioma, solicita seleção se não encontrada. / Loads language configuration, prompts selection if not found."""
+    global language
+    try:
+        with open(config_file, 'r') as file:
+            config = json.load(file)
+            language = config.get("language")  # Sem valor padrão aqui / No default value here
+            if language not in ["en", "pt"]:  # Verifica se o idioma é válido / Check for valid language
+                raise ValueError("Invalid language in config file")
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        print(f"{message_languages['no_language_or_corrupted']}")
+        select_language()
+        save_config()
+
+def save_config():
+    """Salva a configuração atual / Save the current configuration."""
+    config = {"language": language}
+    with open(config_file, 'w') as file:
+        json.dump(config, file)
+
+def select_language():
+    """Seleciona o idioma / Select the language."""
+    global language
+    while True:
+        clear_screen()
+        print(f"{message_languages['select_language']}")
+        choice = input(f"{message_languages['choice']}")
+        if choice == "1":
+            language = "en"
+            break
+        elif choice == "2":
+            language = "pt"
+            break
+        else:
+            print(f"{message_languages['invalida']}")
+    save_config()
 
 def get_clear_command():
-    if platform.lower() == "linux" or platform.lower() == "darwin":
+    """Obtém o comando de limpeza para o sistema operacional / Get the clear command for the operating system."""
+    if platform.lower() in ["linux", "darwin"]:
         return "clear"
     elif platform.lower() == "win32":
         return "cls"
     return ""
 
 def clear_screen():
-    """ Clear the console screen. """
+    """Limpa a tela do console / Clear the console screen."""
     os.system(get_clear_command())
 
 def clear_screen_with_message():
-    """Clears the screen, but keeps the download message and connection status at the top."""
+    """Limpa a tela, mas mantém a mensagem de download e o status da conexão no topo. / Clears the screen, but keeps the download message and connection status at the top."""
     clear_screen()
     if not internet_connected:
         if not downloaded_file_message:
-            print(f"{ERROR}Conexao com internet nao estabelecida. Voce pode visualizar repositorios, mas nao visualizar nem baixar arquivos.{RESET}")
+            print(f"{messages[language]['no_internet']}")
         else:
-            print(f"{ERROR}Conexao com internet nao estabelecida. Voce pode visualizar repositorios, mas nao visualizar nem baixar arquivos.{RESET}")
+            print(f"{messages[language]['no_internet']}")
     elif downloaded_file_message:
         print(downloaded_file_message)
 
 def check_internet_connection():
-    """Verifica a conexão com a Internet."""
+    """Verifica a conexão com a Internet / Check the Internet connection."""
     global internet_connected
     try:
         socket.create_connection(("www.google.com", 80), timeout=2)
         if not internet_connected:
             internet_connected = True
             clear_screen()
-            print(f"{SUCCESS}Conexao estabelecida.{RESET}")
+            print(f"{messages[language]['internet_established']}")
     except OSError:
         internet_connected = False
 
 def download_file(file_url, file_name):
-    """Downloads a file from the given URL and saves it with the given name."""
+    """Baixa um arquivo da URL fornecida e salva com o nome fornecido. / Downloads a file from the given URL and saves it with the given name."""
     global downloaded_file_message
     try:
-        directory = os.path.dirname(file_name) or "./downloads"  
+        directory = os.path.dirname(file_name) or "./downloads"  # Diretório para downloads / Directory for downloads
+        os.makedirs(directory, exist_ok=True)  # Cria o diretório se não existir / Create directory if not exists
 
-        with requests.get(file_url, stream=True, allow_redirects=True) as r:  
-            r.raise_for_status()  
+        with requests.get(file_url, stream=True, allow_redirects=True) as r:  # Solicita o arquivo / Request the file
+            r.raise_for_status()  # Verifica se a solicitação foi bem-sucedida / Check if the request was successful
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-        downloaded_file_message = f"{SUCCESS}Arquivo '{file_name}' carregado!{RESET}"
+        downloaded_file_message = f"{SUCCESS}{file_name}{messages[language]['success']}{RESET}"
         clear_screen_with_message()
     except requests.exceptions.RequestException as e:
-        print(f"{ERROR}Erro ao baixar '{file_name}': {e}{RESET}")
+        print(f"{messages[language]['download_error']} '{file_name}': {e}{RESET}")
 
 def get_default_branch(username, repo_name):
+    """Obtém o branch padrão de um repositório do GitHub / Get the default branch of a GitHub repository."""
     url = f"https://api.github.com/repos/{username}/{repo_name}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -89,6 +127,7 @@ def get_default_branch(username, repo_name):
         return 'main'
 
 def fetch_repository_files(username, repo, files_dict):
+    """Busca os arquivos de um repositório e os armazena no dicionário / Fetch repository files and store them in the dictionary."""
     repo_name, repo_url = repo['name'], repo['url']
     default_branch = get_default_branch(username, repo_name)
     files = list_repository_files(repo_url, default_branch)
@@ -96,6 +135,7 @@ def fetch_repository_files(username, repo, files_dict):
         files_dict[repo_name] = files
 
 def fetch_repositories(username, repo_list, files_dict):
+    """Busca os repositórios de um usuário do GitHub e preenche a lista e o dicionário / Fetch GitHub user's repositories and populate the list and dictionary."""
     page = 1
     while True:
         url = f"https://github.com/{username}?page={page}&tab=repositories"
@@ -120,6 +160,7 @@ def fetch_repositories(username, repo_list, files_dict):
     return True
 
 def list_files_recursive(repo_url, indent="", default_branch='main', retry=3):
+    """Lista os arquivos de um repositório de forma recursiva / List files in a repository recursively."""
     for _ in range(retry):
         try:
             response = requests.get(repo_url)
@@ -152,19 +193,22 @@ def list_files_recursive(repo_url, indent="", default_branch='main', retry=3):
 
             return files_and_dirs
         except (requests.exceptions.RequestException, requests.exceptions.ConnectionError) as e:
-            time.sleep(2)  # Espera antes de tentar novamente
+            time.sleep(2)  # Espera antes de tentar novamente / Wait before retrying
     return []
 
 def list_repository_files(repo_url, default_branch='main'):
+    """Lista os arquivos de um repositório / List repository files."""
     full_url = f"https://github.com{repo_url}"
     return list_files_recursive(full_url, default_branch=default_branch)
 
 def clone_repository(repo_url, repo_name):
+    """Clona um repositório / Clone a repository."""
     subprocess.run(["git", "clone", f"https://github.com{repo_url}.git", f"./repositorios/{repo_name}"])
     clear_screen()
-    print(f"\n{PREFIX_OUT} Repositório {WHITE}'{repo_name}'{HEADER} clonado com sucesso.{RESET}")
+    print(f"{messages[language]['repo_cloned']} '{repo_name}' {messages[language]['success']}.")
 
 def print_centered_header(text, total_width=30):
+    """Imprime um cabeçalho centralizado / Print a centered header."""
     text_length = len(text)
     if text_length < total_width:
         padding = (total_width - text_length) // 2
@@ -173,29 +217,29 @@ def print_centered_header(text, total_width=30):
         return text
 
 def highlight_code(file_path):
+    """Destaca o código de um arquivo / Highlight code from a file."""
     with open(file_path, 'r') as file:
         code = file.read()
     lexer = guess_lexer_for_filename(file_path, code)
     formatter = TerminalFormatter()
     highlighted_code = highlight(code, lexer, formatter)
-    os.remove(file_path)  # Remover o arquivo após exibição
+    os.remove(file_path)  # Remove o arquivo temporário / Remove the temporary file
     clear_screen()
     print(f"\n{highlighted_code}\n")
 
 def get_forks_count(soup):
-    """Extract and clean the forks count from the BeautifulSoup object."""
+    """Extrai e limpa a contagem de forks do objeto BeautifulSoup / Extract and clean the forks count from the BeautifulSoup object."""
     forks_element = soup.find('a', {'href': lambda href: href and "/forks" in href})
     if forks_element:
-        
         forks_text = forks_element.text.strip().split()[0].replace(',', '')
         try:
             return int(forks_text)
         except ValueError:
-            pass  
-    return 0  
+            pass  # Ignora a exceção / Ignore the exception
+    return 0  # Retorna 0 se não conseguir obter a contagem / Return 0 if unable to get the count
 
 def fetch_repo_additional_info(repo_url):
-    """Fetch stars and forks count for a repository."""
+    """Busca a contagem de estrelas e forks de um repositório / Fetch stars and forks count for a repository."""
     url = f"https://github.com{repo_url}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -207,76 +251,80 @@ def fetch_repo_additional_info(repo_url):
         return 0, 0
     
 def handle_file_action(file_name, file_url, file_type):
-    """Handles file action (view or download) based on user choice."""
+    """Trata a ação do arquivo (visualizar ou baixar) com base na escolha do usuário. / Handles file action (view or download) based on user choice."""
     downloads_dir = os.path.join(os.getcwd(), "downloads")
-    os.makedirs(downloads_dir, exist_ok=True)  
+    os.makedirs(downloads_dir, exist_ok=True)  # Cria o diretório de downloads se não existir / Create the downloads directory if it doesn't exist
     while True:
         clear_screen_with_message()
-        action = input("Escolha uma ação (v - visualizar, d - baixar, b - voltar): ")
+        action = input(f"{messages[language]['view_or_download']}")
         if action == 'd':
             download_path = os.path.join(downloads_dir, file_name)
             download_file(file_url, download_path)
             break
         elif action == 'v' and file_type == "File":
-            download_file(file_url, file_name) 
+            download_file(file_url, file_name)  # Baixa o arquivo antes de visualizar / Download the file before viewing
             highlight_code(file_name)
-            download_after_view = input(f"{PREFIX_OUT}{WHITE}Deseja baixar o arquivo? (s/n): {RESET}")
-            if download_after_view.lower() == 's':
+            download_after_view = input(f"{messages[language]['download_prompt']}")
+            if download_after_view.lower() in ('s', 'y'):
                 download_file(file_url, os.path.join(downloads_dir, file_name))
             break
         elif action == 'b':
             break
         else:
-            print("Opção inválida!")
-        downloaded_file_message = None 
+            print(f"{messages[language]['invalid_option']}")
+        downloaded_file_message = None  # Reseta a mensagem após o loop / Reset the message after the loop
 
 def display_repository_files(username, repo_name, files):
-    """Displays repository files with interactive menu."""
+    """Exibe os arquivos do repositório com um menu interativo. / Displays repository files with an interactive menu."""
     clear_screen()
-    check_internet_connection()
+    check_internet_connection()  # Verifica a conexão com a Internet / Check the Internet connection
     print(f"\n{WHITE}{print_centered_header(f'[{username}/{repo_name}]', 50)}{RESET}\n")
     for i, (display_name, file_url, file_type) in enumerate(files):
         print(f"{i + 1}. {display_name}")
 
-    while True:  
-        file_option = input(f"{PREFIX_OUT}\nEscolha um arquivo (número) ou 'b' para voltar: {WHITE} {RESET}")
+    while True:  # Loop para tratar da seleção de arquivos / Loop to handle file selection
+        file_option = input(f"{messages[language]['choose_file']}")
         if file_option.isdigit():
             file_index = int(file_option) - 1
             if 0 <= file_index < len(files):
                 _, file_url, file_type = files[file_index]
-                file_name = files[file_index][0].split(' (')[0]  
+                file_name = files[file_index][0].split(' (')[0]  # Extrai o nome do arquivo / Extract the file name
                 handle_file_action(file_name, file_url, file_type)
-                break  # Exit loop after handling file action
+                break  # Sai do loop após a ação do arquivo / Exit the loop after file action
             else:
-                print(f"{ERROR}Número de arquivo inválido!{RESET}")
+                print(f"{messages[language]['invalid_file_number']}")
         elif file_option.lower() == 'b':
-            return  
+            return  # Volta ao menu anterior / Return to the previous menu
         else:
-            print(f"{ERROR}Opção inválida!{RESET}")
+            print(f"{messages[language]['invalid_option']}")
 
 def main():
-
+    """Função principal que executa o programa / Main function that runs the program."""
     clear = lambda: os.system(get_clear_command())
     clear()
 
-    print(f"{HEADER}==================== BEM-VINDO AO GitBrowse ===================={RESET}")
-    print(f"{PREFIX_OUT} Para começar, digite o nome do usuário do GitHub:")
+    load_config()
+
+    if language not in ["pt", "en"]:
+        select_language()
+
+    print(f"{messages[language]['welcome']}")
     username = input(f"{PREFIX_IN}{WHITE}")
 
-    check_internet_connection()  
+    check_internet_connection()  # Verifica a conexão com a Internet / Check the Internet connection
     if not internet_connected:
         clear_screen_with_message()
 
-    print(f"{PREFIX_OUT} Procurando o usuário {WHITE}{username}{HEADER}...{RESET}")
+    print(f"{messages[language]['searching_user']}{username}{HEADER}...{RESET}")
 
     repositories = []
     files_dict = {}
-    if not fetch_repositories(username, repositories, files_dict):  
-        print(f"{PREFIX_OUT} {F.RED}Usuário não encontrado.{RESET}")
+    if not fetch_repositories(username, repositories, files_dict):  # Busca os repositórios / Fetch the repositories
+        print(f"{messages[language]['user_not_found']}")
         return
 
     clear_screen()
-    print(f"{PREFIX_OUT} Usuário {WHITE}{username}{HEADER} encontrado! Navegue pelas opções abaixo:{RESET}")
+    print(f"{messages[language]['user_prefix']}{username}{messages[language]['user_found']}")
 
     current_page = 0
     repos_per_page = 10
@@ -284,57 +332,54 @@ def main():
     header_width = max(30, len(username) + 10)
 
     while True:
+        clear_screen()
         
-        print(f"\n{WHITE}------------------------{RESET}\n")
-        print(f"{WHITE}Opções:\n\n{WHITE}1.{HEADER} Listar repositórios\n\n{WHITE}2.{HEADER} Sair{RESET}")
-        print(f"\n{WHITE}------------------------{RESET}\n")
-        option = input(f"{PREFIX_OUT} {WHITE}Escolha uma opção:{WHITE} {RESET}")
+        print(f"{messages[language]['list_or_exit']}")
+        option = input(f"{messages[language]['choose_option']}")
 
         if option == '1':
             while True:
                 clear_screen()
-                check_internet_connection()  # Verifica a conexão a cada iteração
+                check_internet_connection()  # Verifica a conexão com a Internet / Check the Internet connection
                 clear_screen_with_message()
                 start = current_page * repos_per_page
                 end = min(start + repos_per_page, len(repositories))
                 print(f"\n{WHITE}{print_centered_header(f'[{username}]', header_width)}{RESET}\n")
                 for i in range(start, end):
                     repo = repositories[i]
-                    print(f"{i + 1}. {HEADER}{repo['name']:<60}{WHITE}Estrelas: {repo['stars']} | Forks: {repo['forks']}{RESET}")
-                print(f"\n{WHITE}{print_centered_header(f'[Página {current_page + 1}/{total_pages}]', header_width)}{RESET}\n")
-                print(f"{WHITE}Selecione um {HEADER}número {WHITE}para ver detalhes\nSelecione {HEADER}'p' {WHITE}para próxima página\nSelecione {HEADER}'n' {WHITE}para página anterior\nSelecione {HEADER}'b' {WHITE}para voltar ao menu anterior{WHITE}{RESET}")
-                repo_option = input(f"{PREFIX_OUT} {WHITE}Escolha uma ação: {WHITE}{RESET} ")
+                    print(f"{i + 1}. {HEADER}{repo['name']:<60}{WHITE}Stars: {repo['stars']} | Forks: {repo['forks']}{RESET}")
+                print(f"\n{WHITE}{print_centered_header(f'[Page {current_page + 1}/{total_pages}]', header_width)}{RESET}\n")
+                clear_screen()
+                print(f"{messages[language]['page_details']}")
+                repo_option = input(f"{messages[language]['choose_option']}")
 
                 if repo_option.isdigit():
-                    
                     repo_index = int(repo_option) - 1 + start
                     repo_name = repositories[repo_index]['name']
                     clear_screen()
-                    check_internet_connection()  # Verifica a conexão ao selecionar o repositório
+                    check_internet_connection()  # Verifica a conexão com a Internet / Check the Internet connection
                     clear_screen_with_message()
                     
-                    print(f"\n{WHITE}------------------------{RESET}\n")
-                    print(f"\nOpções para {repo_name}:\n\n{WHITE}1.{HEADER} Ver arquivos\n\n{WHITE}2.{HEADER} Clonar repositório{RESET}")
-                    print(f"\n{WHITE}------------------------{RESET}\n")
-                    action = input(f"{PREFIX_OUT} {WHITE}Escolha uma ação: {WHITE}{RESET} ")
+                    print(f"{messages[language]['options_for']} {repo_name}{messages[language]['view_or_clone']}")
+                    action = input(f"{messages[language]['choose_option']}")
                     if action == '1':
                         clear_screen()
-                        check_internet_connection()  # Verifica a conexão antes de exibir arquivos
+                        check_internet_connection()  # Verifica a conexão com a Internet / Check the Internet connection
                         clear_screen_with_message()
                         if repo_name in files_dict:
                             files = files_dict[repo_name]
                             display_repository_files(username, repo_name, files)
                         else:
-                            print(f"\n{ERROR}Arquivos ainda sendo processados, tente novamente em breve.{RESET}\n")
+                            print(f"{messages[language]['processing']}")
                     elif action == '2':
                         clear_screen()
-                        check_internet_connection()  # Verifica a conexão antes de clonar o repositório
+                        check_internet_connection()  # Verifica a conexão com a Internet / Check the Internet connection
                         clear_screen_with_message()
                         if internet_connected:
                             repo_url = repositories[repo_index]['url']
                             clone_repository(repo_url, repo_name)
                         else:
-                            print(f"{ERROR}Não é possível clonar sem conexão com a internet.{RESET}")
+                            print(f"{messages[language]['cannot_clone_no_internet']}")
                 elif repo_option.lower() == 'p' and current_page < total_pages - 1:
                     current_page += 1
                 elif repo_option.lower() == 'n' and current_page > 0:
@@ -342,8 +387,11 @@ def main():
                 elif repo_option.lower() == 'b':
                     break
         elif option == '2':
+            select_language()
             clear_screen()
-            print(f"\n{ERROR}Programa encerrado.{RESET}\n")
+        elif option == '3':
+            clear_screen()
+            print(f"{messages[language]['exiting']}")
             break
 
 if __name__ == "__main__":
