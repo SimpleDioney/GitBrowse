@@ -4,6 +4,20 @@
     <p><strong>GitBrowse</strong> é uma ferramenta de linha de comando robusta projetada para navegar e interagir com repositórios do GitHub diretamente do seu terminal. Com GitBrowse, você pode facilmente listar repositórios, visualizar e baixar arquivos, e até mesmo clonar repositórios inteiros com simplicidade e eficiência.</p>
 </div>
 
+## Vídeo de Demonstração
+
+- **Visualizando e baixando arquivos especificos e unicos**
+
+<div align="center">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/IiTA-VvYQ_E?si=DXZlJrUXh_uJ8T1B" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+- **Clonando um repositorio completo**
+
+<div align="center">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/IiTA-VvYQ_E?si=DXZlJrUXh_uJ8T1B" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
 ## Requisitos
 
 - **Python**: Versão 3.6 ou superior.
@@ -55,6 +69,7 @@
 - Implementação de autenticação para acessar repositórios privados.
 - Melhoria na eficiência do uso de threads para operações mais rápidas e menos bloqueantes.
 - Adição de um sistema para temas.
+- Deixa-lo mais rapido, o uso de threads nao foi bem otimizado e ele ainda demora um certo tempo para fazer a primeira iteracao (buscar um usuario).
 
 ## Contribuições
 
