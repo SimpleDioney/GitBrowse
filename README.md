@@ -8,7 +8,7 @@
 
 - **Visualizando e baixando arquivos especificos e unicos**
 
-    [![Nome do Vídeo](https://img.youtube.com/vi/)](https://www.youtube.com/watch?v=IiTA-VvYQ_E)
+    [Clique aqui!](https://www.youtube.com/watch?v=IiTA-VvYQ_E)
 
 
 - **Clonando um repositorio completo**
