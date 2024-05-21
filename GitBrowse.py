@@ -160,7 +160,7 @@ def list_repository_files(repo_url, default_branch='main'):
     return list_files_recursive(full_url, default_branch=default_branch)
 
 def clone_repository(repo_url, repo_name):
-    subprocess.run(["git", "clone", f"https://github.com{repo_url}.git", f"./{repo_name}"])
+    subprocess.run(["git", "clone", f"https://github.com{repo_url}.git", f"./repositorios/{repo_name}"])
     clear_screen()
     print(f"\n{PREFIX_OUT} Repositório {WHITE}'{repo_name}'{HEADER} clonado com sucesso.{RESET}")
 
