@@ -66,11 +66,10 @@ def download_file(file_url, file_name):
     """Downloads a file from the given URL and saves it with the given name."""
     global downloaded_file_message
     try:
-        directory = os.path.dirname(file_name) or "./downloads"  # Use provided directory or default
-        os.makedirs(directory, exist_ok=True)
+        directory = os.path.dirname(file_name) or "./downloads"  
 
-        with requests.get(file_url, stream=True, allow_redirects=True) as r:  # Use streaming for large files
-            r.raise_for_status()  # Raise an exception for bad responses
+        with requests.get(file_url, stream=True, allow_redirects=True) as r:  
+            r.raise_for_status()  
             with open(file_name, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
@@ -187,13 +186,13 @@ def get_forks_count(soup):
     """Extract and clean the forks count from the BeautifulSoup object."""
     forks_element = soup.find('a', {'href': lambda href: href and "/forks" in href})
     if forks_element:
-        # Extract the text, remove commas, and convert to an integer
+        
         forks_text = forks_element.text.strip().split()[0].replace(',', '')
         try:
             return int(forks_text)
         except ValueError:
-            pass  # Handle cases where the text isn't a valid number
-    return 0  # Default to 0 if forks count cannot be determined
+            pass  
+    return 0  
 
 def fetch_repo_additional_info(repo_url):
     """Fetch stars and forks count for a repository."""
@@ -210,7 +209,7 @@ def fetch_repo_additional_info(repo_url):
 def handle_file_action(file_name, file_url, file_type):
     """Handles file action (view or download) based on user choice."""
     downloads_dir = os.path.join(os.getcwd(), "downloads")
-    os.makedirs(downloads_dir, exist_ok=True)  # Ensure downloads directory exists
+    os.makedirs(downloads_dir, exist_ok=True)  
     while True:
         clear_screen_with_message()
         action = input("Escolha uma ação (v - visualizar, d - baixar, b - voltar): ")
@@ -239,19 +238,19 @@ def display_repository_files(username, repo_name, files):
     for i, (display_name, file_url, file_type) in enumerate(files):
         print(f"{i + 1}. {display_name}")
 
-    while True:  # Loop for file selection until valid input or 'b' to go back
+    while True:  
         file_option = input(f"{PREFIX_OUT}\nEscolha um arquivo (número) ou 'b' para voltar: {WHITE} {RESET}")
         if file_option.isdigit():
             file_index = int(file_option) - 1
             if 0 <= file_index < len(files):
                 _, file_url, file_type = files[file_index]
-                file_name = files[file_index][0].split(' (')[0]  # Extract filename
+                file_name = files[file_index][0].split(' (')[0]  
                 handle_file_action(file_name, file_url, file_type)
                 break  # Exit loop after handling file action
             else:
                 print(f"{ERROR}Número de arquivo inválido!{RESET}")
         elif file_option.lower() == 'b':
-            return  # Go back to the repository menu
+            return  
         else:
             print(f"{ERROR}Opção inválida!{RESET}")
 
@@ -264,7 +263,7 @@ def main():
     print(f"{PREFIX_OUT} Para começar, digite o nome do usuário do GitHub:")
     username = input(f"{PREFIX_IN}{WHITE}")
 
-    check_internet_connection()  # Verifica a conexão inicial com a Internet
+    check_internet_connection()  
     if not internet_connected:
         clear_screen_with_message()
 
@@ -272,7 +271,7 @@ def main():
 
     repositories = []
     files_dict = {}
-    if not fetch_repositories(username, repositories, files_dict):  # Pass files_dict here
+    if not fetch_repositories(username, repositories, files_dict):  
         print(f"{PREFIX_OUT} {F.RED}Usuário não encontrado.{RESET}")
         return
 
