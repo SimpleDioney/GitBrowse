@@ -8,10 +8,8 @@
 
 - **Visualizando e baixando arquivos especificos e unicos**
 
-<div align="center">
     [![Nome do Vídeo](https://img.youtube.com/vi/)](https://www.youtube.com/watch?v=IiTA-VvYQ_E)
 
-</div>
 
 - **Clonando um repositorio completo**
 
