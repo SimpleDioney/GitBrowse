@@ -15,8 +15,7 @@ from pygments.formatters import TerminalFormatter
 import time
 import json
 
-# Importa as mensagens do arquivo messages.py para deixar o codigo mais organizado e limpo.
-# [Pt] Import messages from messages.py to keep the code more organized and clean.
+# Importa as mensagens do arquivo messages.py para deixar o codigo mais organizado e limpo. / Import messages from messages.py to keep the code more organized and clean.
 from messages import RESET, PREFIX_OUT, PREFIX_IN, ERROR, SUCCESS, INFO, WHITE, HEADER, FOOTER
 from messages import message_languages, messages
 
