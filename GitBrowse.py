@@ -1,4 +1,3 @@
-from multiprocessing import process
 from bs4 import BeautifulSoup
 from colorama import Fore as F, Back as B, Style as S
 from sys import platform
@@ -16,8 +15,7 @@ import time
 import json
 
 # Importa as mensagens do arquivo messages.py para deixar o codigo mais organizado e limpo. / Import messages from messages.py to keep the code more organized and clean.
-from messages import RESET, PREFIX_OUT, PREFIX_IN, ERROR, SUCCESS, INFO, WHITE, HEADER, FOOTER
-from messages import message_languages, messages
+from messages import *
 
 lock = threading.Lock()  # Mutex para sincronização / Mutex for synchronization
 downloaded_file_message = None  # Mensagem de arquivo baixado / Downloaded file message
@@ -114,6 +112,35 @@ def download_file(file_url, file_name):
         clear_screen_with_message()
     except requests.exceptions.RequestException as e:
         print(f"{messages[language]['download_error']} '{file_name}': {e}{RESET}")
+
+def download_directory(dir_url, dir_name):
+    """Baixa um diretório da URL fornecida e o salva com o nome fornecido. / Downloads a directory from the given URL and saves it with the given name."""
+
+    # Garantir barra à direita para identificação correta do diretório / Ensure trailing slash for correct directory identification
+    if not dir_url.endswith("/"):
+        dir_url += "/"
+
+    download_base_path = os.path.join("./downloads/diretorios", dir_name)
+    os.makedirs(download_base_path, exist_ok=True)
+
+    try:
+        for item_display_name, item_url, item_type in list_files_recursive(dir_url):
+            item_name = item_display_name.split(" (")[0].strip()
+
+            # Criar o caminho de download correto para diretórios aninhados / Create the correct download path for nested directories
+            item_path = os.path.join(dir_name, item_name)
+            download_path = os.path.join("./downloads/diretorios", item_path)
+
+            if item_type == "File":
+                download_file(item_url, download_path)
+            elif item_type == "Directory":
+                # Passa o item_path completo para a chamada recursiva / Pass the full item_path for the recursive call
+                download_directory(item_url, item_path)
+        print(f"{messages[language]['directory']}{dir_name}{messages[language]['downloaded_directory']}{RESET}")
+    except requests.exceptions.RequestException as e:
+        print(f"{messages[language]['error_directory']} '{dir_name}'{RESET}")
+    except Exception as e:  
+        print(f"{messages[language]['error_directory']} '{dir_name}'{RESET}")
 
 def get_default_branch(username, repo_name):
     """Obtém o branch padrão de um repositório do GitHub / Get the default branch of a GitHub repository."""
@@ -255,10 +282,18 @@ def handle_file_action(file_name, file_url, file_type):
     os.makedirs(downloads_dir, exist_ok=True)  # Cria o diretório de downloads se não existir / Create the downloads directory if it doesn't exist
     while True:
         clear_screen_with_message()
-        action = input(f"{messages[language]['view_or_download']}")
+        if file_type == "Directory":
+            print(f"{messages[language]['folder_options']}")
+        else:
+            print(f"{messages[language]['view_or_download']}")
+        action = input(f"{messages[language]['choose_option']}")
+
         if action == 'd':
-            download_path = os.path.join(downloads_dir, file_name)
-            download_file(file_url, download_path)
+            download_path = os.path.join("downloads", file_name)
+            if file_type == "File":
+                download_file(file_url, download_path)
+            elif file_type == "Directory":
+                download_directory(file_url, file_name)
             break
         elif action == 'v' and file_type == "File":
             download_file(file_url, file_name)  # Baixa o arquivo antes de visualizar / Download the file before viewing
@@ -345,7 +380,7 @@ def main():
                 print(f"\n{WHITE}{print_centered_header(f'[{username}]', header_width)}{RESET}\n")
                 for i in range(start, end):
                     repo = repositories[i]
-                    print(f"{i + 1}. {HEADER}{repo['name']:<60}{WHITE}Stars: {repo['stars']} | Forks: {repo['forks']}{RESET}")
+                    print(f"{i + 1}. {HEADER}{repo['name']:<60}{STAR}Stars{WHITE}: {repo['stars']} {WHITE}| {SUCCESS}Forks{WHITE}: {repo['forks']}{RESET}")
                 print(f"\n{WHITE}{print_centered_header(f'[Page {current_page + 1}/{total_pages}]', header_width)}{RESET}\n")
                 
                 print(f"{messages[language]['page_details']}")
