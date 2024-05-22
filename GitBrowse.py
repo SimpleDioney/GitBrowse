@@ -338,7 +338,6 @@ def main():
 
         if option == '1':
             while True:
-                clear_screen()
                 check_internet_connection()  # Verifica a conexão com a Internet / Check the Internet connection
                 clear_screen_with_message()
                 start = current_page * repos_per_page
@@ -348,7 +347,7 @@ def main():
                     repo = repositories[i]
                     print(f"{i + 1}. {HEADER}{repo['name']:<60}{WHITE}Stars: {repo['stars']} | Forks: {repo['forks']}{RESET}")
                 print(f"\n{WHITE}{print_centered_header(f'[Page {current_page + 1}/{total_pages}]', header_width)}{RESET}\n")
-                clear_screen()
+                
                 print(f"{messages[language]['page_details']}")
                 repo_option = input(f"{messages[language]['choose_option']}")
 
