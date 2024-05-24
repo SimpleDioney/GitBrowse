@@ -1,10 +1,10 @@
 from colorama import Fore as F, Style as S
-import GitBrowse
+
+# Mensagens e cores
 RESET = S.RESET_ALL
 PREFIX_OUT = RESET + F.LIGHTMAGENTA_EX + ">> "
 PREFIX_IN = RESET + F.MAGENTA + "<< "
 ERROR = F.RED
-STAR = F.YELLOW
 SUCCESS = F.GREEN
 INFO = F.CYAN
 WHITE = F.WHITE
@@ -20,15 +20,11 @@ message_languages = {
 
 messages = {
     "pt": {
-        "directory": f"{SUCCESS}Diretorio ",
-        "downloaded_directory": f" baixado com sucesso!{RESET}",
-        "error_directory": f"{ERROR}Erro ao baixar diretorio: ",
         "no_internet": f"{ERROR}Conexao com internet nao estabelecida. Voce pode visualizar repositorios, mas nao visualizar nem baixar arquivos.{RESET}",
-        "folder_options": "Isto é uma pasta. Escolha uma ação (d para baixar): ",
         "internet_established": f"{SUCCESS}Conexao estabelecida.{RESET}",
         "download_error": f"{ERROR}Erro ao baixar",
         "repo_cloned": f"\n{PREFIX_OUT} Repositório {WHITE}",
-        "success": f"{HEADER} baixado com sucesso.{RESET}",
+        "success": f"{HEADER}clonado com sucesso.{RESET}",
         "invalid_option": f"{ERROR}Opção inválida!{RESET}",
         "choose_file": f"{PREFIX_OUT}\nEscolha um arquivo (número) ou 'b' para voltar: {WHITE} {RESET}",
         "welcome": f"{HEADER}==================== BEM-VINDO AO GitBrowse ===================={RESET}\n{PREFIX_OUT} Para começar, digite o nome do usuário do GitHub:",
@@ -49,15 +45,11 @@ messages = {
         "view_or_download": f"{HEADER}Escolha uma ação:\n\n{WHITE}v{HEADER} - visualizar\n{WHITE}d{HEADER} - baixar\n{WHITE}b{HEADER} - voltar{WHITE}\n\n{PREFIX_IN}{RESET}"
     },
     "en": {
-        "directory": f"{SUCCESS}Directory ",
-        "downloaded_directory": f" downloaded successfully!{RESET}",
-        "error_directory": f"{ERROR}Error downloading directory: ",
         "no_internet": f"{ERROR}No internet connection established. You can view repositories, but not view or download files.{RESET}",
-        "folder_options": "This is a folder. Choose an action (d to download): ",
         "internet_established": f"{SUCCESS}Connection established.{RESET}",
         "download_error": f"{ERROR}Error downloading",
         "repo_cloned": f"\n{PREFIX_OUT} Repository {WHITE}",
-        "success": f"{HEADER} downloaded successfully.{RESET}",
+        "success": f"{HEADER}successfully cloned.{RESET}",
         "invalid_option": f"{ERROR}Invalid option!{RESET}",
         "choose_file": f"{PREFIX_OUT}\nChoose a file (number) or 'b' to go back: {WHITE} {RESET}",
         "welcome": f"{HEADER}==================== WELCOME TO GitBrowse ===================={RESET}\n{PREFIX_OUT} To start, enter the GitHub username:",
