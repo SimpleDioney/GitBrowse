@@ -1,6 +1,5 @@
 <div align="center">
   <h1>GitBrowse</h1>
-  <img src="https://raw.githubusercontent.com/user/gitbrowse/main/assets/logo.png" alt="GitBrowse Logo" width="200"/>
   <p><strong>GitBrowse</strong> is a powerful command-line tool designed to navigate and interact with GitHub repositories directly from your terminal. Browse, view, download, and clone repositories with simplicity and efficiency.</p>
 </div>
 
