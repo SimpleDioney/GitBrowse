@@ -21,7 +21,7 @@ except (FileNotFoundError, IOError):
     pass
 
 setup(
-    name="gitbrowse",
+    name="gitbrowser",
     version=version,
     description="A powerful command-line tool for browsing GitHub repositories",
     long_description=long_description,
@@ -52,7 +52,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "gitbrowse=gitbrowse.cli:main",
+            "gitbrowser=gitbrowse.cli:main",
         ],
     },
     classifiers=[

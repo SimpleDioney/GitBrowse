@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>GitBrowse</h1>
-  <p><strong>GitBrowse</strong> is a powerful command-line tool designed to navigate and interact with GitHub repositories directly from your terminal. Browse, view, download, and clone repositories with simplicity and efficiency.</p>
+  <h1>GitBrowser</h1>
+  <p><strong>GitBrowser</strong> is a powerful command-line tool designed to navigate and interact with GitHub repositories directly from your terminal. Browse, view, download, and clone repositories with simplicity and efficiency.</p>
 </div>
 
 <div align="center">
@@ -53,11 +53,11 @@
 
 ```bash
 # Install from PyPI
-pip install gitbrowse
+pip install gitbrowser
 
 # Or install from source
-git clone https://github.com/user/gitbrowse.git
-cd gitbrowse
+git clone https://github.com/SimpleDioney/gitbrowser.git
+cd gitbrowser
 pip install -e .
 ```
 
@@ -67,26 +67,26 @@ pip install -e .
 
 ```bash
 # Start the interactive browser
-gitbrowse
+gitbrowser
 
 # Or directly browse a specific user's repositories
-gitbrowse browse USERNAME
+gitbrowser browse USERNAME
 ```
 
 ### Examples
 
 ```bash
 # List repositories for a specific user
-gitbrowse list microsoft
+gitbrowser list microsoft
 
 # View a specific file from a repository
-gitbrowse view microsoft/vscode README.md
+gitbrowser view microsoft/vscode README.md
 
 # Download a specific file
-gitbrowse download microsoft/vscode package.json
+gitbrowser download microsoft/vscode package.json
 
 # Clone a repository
-gitbrowse clone microsoft/vscode
+gitbrowser clone microsoft/vscode
 ```
 
 ## 🧩 Advanced Features
@@ -103,8 +103,8 @@ gitbrowse clone microsoft/vscode
 
 ```bash
 # Clone the repository
-git clone https://github.com/user/gitbrowse.git
-cd gitbrowse
+git clone https://github.com/SimpleDioney/gitbrowser.git
+cd gitbrowser
 
 # Install development dependencies
 pip install -e ".[dev]"
@@ -115,7 +115,7 @@ pytest
 
 ### Project Structure
 
-- `gitbrowse/`: Main package
+- `gitbrowser/`: Main package
   - `api/`: GitHub API interaction
   - `ui/`: User interface components
   - `models/`: Data models
@@ -183,11 +183,11 @@ To support continued development and improvements, consider becoming a sponsor:
 
 ```bash
 # Instale do PyPI
-pip install gitbrowse
+pip install gitbrowser
 
 # Ou instale a partir do código-fonte
-git clone https://github.com/user/gitbrowse.git
-cd gitbrowse
+git clone https://github.com/SimpleDioney/gitbrowser.git
+cd gitbrowser
 pip install -e .
 ```
 
@@ -197,26 +197,26 @@ pip install -e .
 
 ```bash
 # Inicie o navegador interativo
-gitbrowse
+gitbrowser
 
 # Ou navegue diretamente nos repositórios de um usuário específico
-gitbrowse browse NOME_USUARIO
+gitbrowser browse NOME_USUARIO
 ```
 
 ### Exemplos
 
 ```bash
 # Liste repositórios para um usuário específico
-gitbrowse list microsoft
+gitbrowser list microsoft
 
 # Visualize um arquivo específico de um repositório
-gitbrowse view microsoft/vscode README.md
+gitbrowser view microsoft/vscode README.md
 
 # Baixe um arquivo específico
-gitbrowse download microsoft/vscode package.json
+gitbrowser download microsoft/vscode package.json
 
 # Clone um repositório
-gitbrowse clone microsoft/vscode
+gitbrowser clone microsoft/vscode
 ```
 
 ## 🧩 Recursos Avançados
@@ -233,8 +233,8 @@ gitbrowse clone microsoft/vscode
 
 ```bash
 # Clone o repositório
-git clone https://github.com/user/gitbrowse.git
-cd gitbrowse
+git clone https://github.com/SimpleDioney/gitbrowser.git
+cd gitbrowser
 
 # Instale as dependências de desenvolvimento
 pip install -e ".[dev]"
@@ -245,7 +245,7 @@ pytest
 
 ### Estrutura do Projeto
 
-- `gitbrowse/`: Pacote principal
+- `gitbrowser/`: Pacote principal
   - `api/`: Interação com a API do GitHub
   - `ui/`: Componentes da interface do usuário
   - `models/`: Modelos de dados

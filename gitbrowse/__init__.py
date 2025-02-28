@@ -6,6 +6,6 @@ viewing, downloading, and cloning GitHub repositories directly from
 your terminal.
 """
 
-__version__ = "4.0.0"
+__version__ = "4.0.3"
 __author__ = "SimpleDioney"
 __license__ = "MIT"

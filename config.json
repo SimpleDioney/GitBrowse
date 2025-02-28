@@ -1,5 +1,5 @@
 {
-    "language": "pt",
+    "language": "en",
     "cache_timeout": 3600,
     "max_concurrent_downloads": 5,
     "connection_check_interval": 30,
