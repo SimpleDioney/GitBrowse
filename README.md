@@ -1,93 +1,277 @@
-
 <div align="center">
-    <h1>GitBrowse</h1>
-    <p><strong>GitBrowse</strong> é uma ferramenta de linha de comando robusta projetada para navegar e interagir com repositórios do GitHub diretamente do seu terminal. Com GitBrowse, você pode facilmente listar repositórios, visualizar e baixar arquivos, e até mesmo clonar repositórios inteiros com simplicidade e eficiência.</p>
+  <h1>GitBrowse</h1>
+  <img src="https://raw.githubusercontent.com/user/gitbrowse/main/assets/logo.png" alt="GitBrowse Logo" width="200"/>
+  <p><strong>GitBrowse</strong> is a powerful command-line tool designed to navigate and interact with GitHub repositories directly from your terminal. Browse, view, download, and clone repositories with simplicity and efficiency.</p>
 </div>
 
-## Vídeos de Demonstração
+<div align="center">
+  <img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="Python 3.8+"/>
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"/>
+</div>
 
-- **Visualizando e baixando arquivos especificos e unicos:**
+---
 
-    [Clique aqui!](https://www.youtube.com/watch?v=IiTA-VvYQ_E)
+## 🌎 Language | Idioma
 
+- [English](#-features)
+- [Português](#-funcionalidades)
 
-- **Clonando um repositorio completo:**
+---
 
-    [Clique aqui!](https://www.youtube.com/watch?v=2BZZOhzVzQg)
+## ✨ Features
 
-## Requisitos
+- **Repository Exploration**: Browse repositories and their file structures with an intuitive interface
+- **Content Viewing**: View files with syntax highlighting directly in your terminal
+- **Smart Downloads**: Download individual files or entire directories while preserving structure
+- **Repository Cloning**: Clone repositories with a single command
+- **Offline Detection**: Automatically detects internet connectivity and provides appropriate options
+- **Multilingual Support**: Full support for English and Portuguese (easily extensible)
+- **Beautiful Interface**: Colorful, intuitive terminal user interface with rich formatting
+- **Pagination**: Efficiently navigate through long lists of repositories and files
+- **Local Caching**: Speeds up repeated operations by caching repository data
 
-- **Python**: Versão 3.6 ou superior.
-- **Bibliotecas Python**:
-  - `requests`: Para requisições HTTP.
-  - `bs4` (BeautifulSoup4): Para parsing de HTML.
-  - `colorama`: Para estilização de texto no terminal.
-  - `pygments`: Para destacar o código no terminal.
-  - `threading`: Para processamento paralelo.
+## 🎬 Demo Videos
 
-## Funcionalidades
+- **Viewing and downloading specific files:**
+  [Watch Demo](https://www.youtube.com/watch?v=IiTA-VvYQ_E)
 
-- **Limpeza do Terminal**: Ajusta o comando de limpeza de tela com base no sistema operacional, garantindo uma interface de usuário limpa e clara.
-- **Download de Arquivos**: Facilita o download de arquivos do GitHub, gerenciando automaticamente a criação de diretórios, permitindo baixar arquivos individuais de repositórios.
-- **Obtenção do Ramo Padrão de Repositórios**: Utiliza a API do GitHub para determinar o ramo padrão de repositórios, garantindo a correta navegação e clonagem de repositórios.
-- **Busca de Arquivos em Repositórios**: Permite a recuperação de arquivos dentro de um repositório especificado, facilitando a localização de arquivos específicos.
-- **Listagem de Repositórios**: Exibe repositórios de um usuário do GitHub com opções de navegação paginada, incluindo informações sobre estrelas e forks.
-- **Listagem Recursiva de Arquivos de Repositório**: Mostra todos os arquivos e diretórios de um repositório de maneira recursiva, permitindo uma visão completa da estrutura do repositório.
-- **Visualização de Arquivos**: Permite a visualização de arquivos diretamente no terminal com destaque de sintaxe, utilizando `pygments` para suportar múltiplas linguagens de programação.
-- **Interface de Usuário na Linha de Comando**: Oferece uma interface interativa para facilitar a navegação e interação, permitindo a escolha de ações como visualização, download ou clonagem de arquivos e repositórios.
-- **Manutenção de Conexão com a Internet**: Verifica constantemente a conexão com a internet e informa ao usuário sobre a disponibilidade de recursos online, permitindo a navegação em repositórios offline quando necessário.
+- **Cloning an entire repository:**
+  [Watch Demo](https://www.youtube.com/watch?v=2BZZOhzVzQg)
 
-## Como Usar
+## 📋 Requirements
 
-1. Abra seu terminal.
-2. Execute o script principal com Python:
+- **Python**: 3.8 or higher
+- **Required libraries**:
+  - `requests`: For HTTP requests
+  - `beautifulsoup4`: For HTML parsing
+  - `colorama`: For terminal text styling
+  - `pygments`: For code syntax highlighting
+  - `rich`: For enhanced terminal rendering
+  - `tqdm`: For progress bars
+  - `click`: For command-line interface
+
+## 🚀 Installation
+
+```bash
+# Install from PyPI
+pip install gitbrowse
+
+# Or install from source
+git clone https://github.com/user/gitbrowse.git
+cd gitbrowse
+pip install -e .
+```
+
+## 💻 Usage
+
+### Basic Usage
+
+```bash
+# Start the interactive browser
+gitbrowse
+
+# Or directly browse a specific user's repositories
+gitbrowse browse USERNAME
+```
+
+### Examples
+
+```bash
+# List repositories for a specific user
+gitbrowse list microsoft
+
+# View a specific file from a repository
+gitbrowse view microsoft/vscode README.md
+
+# Download a specific file
+gitbrowse download microsoft/vscode package.json
+
+# Clone a repository
+gitbrowse clone microsoft/vscode
+```
+
+## 🧩 Advanced Features
+
+- **Authentication**: Use GitHub tokens for accessing private repositories and increased API limits
+- **Custom Themes**: Choose from built-in themes or create your own
+- **Configurable Settings**: Customize behavior through configuration files
+- **Path Completion**: Tab completion for repository and file paths
+- **Favorites**: Save frequently accessed repositories for quick access
+
+## 🛠️ Development
+
+### Setting Up Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/user/gitbrowse.git
+cd gitbrowse
+
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+```
+
+### Project Structure
+
+- `gitbrowse/`: Main package
+  - `api/`: GitHub API interaction
+  - `ui/`: User interface components
+  - `models/`: Data models
+  - `services/`: Core functionality
+  - `utils/`: Helper utilities
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the repository
+2. Create a feature branch:
    ```bash
-   python gitbrowse.py
+   git checkout -b feature/my-feature
    ```
-3. Siga as instruções interativas para explorar repositórios ou realizar ações específicas, como listar arquivos ou clonar repositórios.
+3. Make your changes and add tests
+4. Ensure all tests pass and code is formatted according to the style guide
+5. Submit a pull request
 
-### Exemplos de Uso
+## 📄 License
 
-- **Listar Repositórios**:
-  Após iniciar o script, digite o nome de usuário do GitHub para listar os repositórios públicos do usuário.
-  
-- **Visualizar Arquivos**:
-  Navegue até o repositório desejado, escolha um arquivo e selecione a opção de visualização para ver o conteúdo do arquivo diretamente no terminal com destaque de sintaxe.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-- **Baixar Arquivos**:
-  Após selecionar um arquivo, escolha a opção de download para salvar o arquivo localmente no diretório `downloads`.
+## 🙏 Support
 
-- **Clonar Repositórios**:
-  Escolha a opção de clonagem para copiar todo o repositório para o seu sistema local.
+To support continued development and improvements, consider becoming a sponsor:
 
-## Desenvolvimento Futuro
+[![Support on Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://patreon.com/SimpleDioney)
 
-- Aprimoramento da interface do usuário para uma navegação mais intuitiva.
-- Implementação de autenticação para acessar repositórios privados.
-- Melhoria na eficiência do uso de threads para operações mais rápidas e menos bloqueantes.
-- Adição de um sistema para temas.
-- Deixa-lo mais rapido, o uso de threads nao foi bem otimizado e ele ainda demora um certo tempo para fazer a primeira iteracao (buscar um usuario).
+---
 
-## Contribuições
+## 🌟 Funcionalidades
 
-Contribuições para melhorar GitBrowse são sempre bem-vindas! Para contribuir:
+- **Exploração de Repositórios**: Navegue por repositórios e suas estruturas de arquivos com uma interface intuitiva
+- **Visualização de Conteúdo**: Veja arquivos com destaque de sintaxe diretamente no seu terminal
+- **Downloads Inteligentes**: Baixe arquivos individuais ou diretórios inteiros preservando a estrutura
+- **Clonagem de Repositórios**: Clone repositórios com um único comando
+- **Detecção Offline**: Detecta automaticamente a conectividade com a internet e fornece opções apropriadas
+- **Suporte Multilíngue**: Suporte completo para inglês e português (facilmente extensível)
+- **Interface Bonita**: Interface de usuário de terminal colorida e intuitiva com formatação rica
+- **Paginação**: Navegue eficientemente por longas listas de repositórios e arquivos
+- **Cache Local**: Acelera operações repetidas com cache de dados de repositório
 
-1. Faça um fork do repositório.
-2. Crie um novo branch para sua feature ou correção:
+## 🎬 Vídeos de Demonstração
+
+- **Visualizando e baixando arquivos específicos:**
+  [Assista à Demonstração](https://www.youtube.com/watch?v=IiTA-VvYQ_E)
+
+- **Clonando um repositório inteiro:**
+  [Assista à Demonstração](https://www.youtube.com/watch?v=2BZZOhzVzQg)
+
+## 📋 Requisitos
+
+- **Python**: 3.8 ou superior
+- **Bibliotecas necessárias**:
+  - `requests`: Para requisições HTTP
+  - `beautifulsoup4`: Para análise de HTML
+  - `colorama`: Para estilização de texto no terminal
+  - `pygments`: Para destaque de sintaxe de código
+  - `rich`: Para renderização aprimorada de terminal
+  - `tqdm`: Para barras de progresso
+  - `click`: Para interface de linha de comando
+
+## 🚀 Instalação
+
+```bash
+# Instale do PyPI
+pip install gitbrowse
+
+# Ou instale a partir do código-fonte
+git clone https://github.com/user/gitbrowse.git
+cd gitbrowse
+pip install -e .
+```
+
+## 💻 Uso
+
+### Uso Básico
+
+```bash
+# Inicie o navegador interativo
+gitbrowse
+
+# Ou navegue diretamente nos repositórios de um usuário específico
+gitbrowse browse NOME_USUARIO
+```
+
+### Exemplos
+
+```bash
+# Liste repositórios para um usuário específico
+gitbrowse list microsoft
+
+# Visualize um arquivo específico de um repositório
+gitbrowse view microsoft/vscode README.md
+
+# Baixe um arquivo específico
+gitbrowse download microsoft/vscode package.json
+
+# Clone um repositório
+gitbrowse clone microsoft/vscode
+```
+
+## 🧩 Recursos Avançados
+
+- **Autenticação**: Use tokens GitHub para acessar repositórios privados e aumentar limites de API
+- **Temas Personalizados**: Escolha entre temas integrados ou crie o seu próprio
+- **Configurações Personalizáveis**: Personalize o comportamento através de arquivos de configuração
+- **Completamento de Caminho**: Preenchimento automático para caminhos de repositório e arquivo
+- **Favoritos**: Salve repositórios acessados frequentemente para acesso rápido
+
+## 🛠️ Desenvolvimento
+
+### Configurando o Ambiente de Desenvolvimento
+
+```bash
+# Clone o repositório
+git clone https://github.com/user/gitbrowse.git
+cd gitbrowse
+
+# Instale as dependências de desenvolvimento
+pip install -e ".[dev]"
+
+# Execute testes
+pytest
+```
+
+### Estrutura do Projeto
+
+- `gitbrowse/`: Pacote principal
+  - `api/`: Interação com a API do GitHub
+  - `ui/`: Componentes da interface do usuário
+  - `models/`: Modelos de dados
+  - `services/`: Funcionalidade principal
+  - `utils/`: Utilitários auxiliares
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Para contribuir:
+
+1. Faça um fork do repositório
+2. Crie uma branch para sua feature:
    ```bash
-   git checkout -b minha-feature
+   git checkout -b feature/minha-feature
    ```
-3. Desenvolva e teste suas mudanças.
-4. Envie um pull request:
-   ```bash
-   git push origin minha-feature
-   ```
+3. Faça suas alterações e adicione testes
+4. Certifique-se de que todos os testes passam e o código está formatado de acordo com o guia de estilo
+5. Envie um pull request
 
-## Apoio
+## 📄 Licença
 
-Para apoiar o desenvolvimento contínuo e melhorias, considere tornar-se um patrocinador no Patreon:
+Distribuído sob a Licença MIT. Veja `LICENSE` para mais informações.
+
+## 🙏 Apoio
+
+Para apoiar o desenvolvimento contínuo e melhorias, considere se tornar um patrocinador:
+
 [![Apoie no Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://patreon.com/SimpleDioney)
-
-## Licença
-
-Distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
